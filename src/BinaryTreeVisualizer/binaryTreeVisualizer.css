@@ -2,17 +2,16 @@
     width:50px;
     height:50px;
     border-radius:50px;
-    font-size:20px;
+    font-size:5px;
     color:#fff;
     line-height:50px;
     text-align:center;
     display: inline-block;
     background:#333;
-    margin: 0 5px;
 }
 
-.array-container1 {
-    bottom: 50%;
+.array-container {
+    bottom: 70%;
     position: absolute;
     margin-right: auto;
     margin-left: auto;
@@ -20,31 +19,29 @@
     right: 0px;
 }
 
-.array-container2 {
-    bottom: 40%;
+.line {
+    bottom: 72%;
     position: absolute;
     margin-right: auto;
     margin-left: auto;
-    left: 0px;
+    left: 167px;
     right: 0px;
+    height: 1px;
+    width: 143px;
+    background: #333;
+    transform: rotate(20deg);
 }
-
-.array-container3 {
-    bottom: 30%;
+.line2 {
+    bottom: 72%;
     position: absolute;
     margin-right: auto;
     margin-left: auto;
     left: 0px;
-    right: 0px;
-}
-
-.array-container4 {
-    bottom: 20%;
-    position: absolute;
-    margin-right: auto;
-    margin-left: auto;
-    left: 0px;
-    right: 0px;
+    right: 168px;
+    height: 1px;
+    width: 143px;
+    background: #333;
+    transform: rotate(-20deg);
 }
 
 .bin-tree {
@@ -53,5 +50,5 @@
 
 .button {
     position:relative;
-    margin-top: 10%;
+    margin-top: 0%;
 }

@@ -3,7 +3,7 @@ import './binaryTreeVisualizer.css';
 import {buildMaxHeap} from '../Algorithms/algorithm.js';
 
 // Change this value for the speed of the animations.
-const ANIMATION_SPEED_MS = 500;
+const ANIMATION_SPEED_MS = 20;
 
 // This is the main color of the array bars.
 const PRIMARY_COLOR = '#333';
@@ -11,8 +11,14 @@ const PRIMARY_COLOR = '#333';
 // This is the color of array bars that are being compared throughout the animations.
 const COMPARING_COLOR = '#f00';
 
+const HAS_COMPARED = '#f93';
+
 // This is the color of array bars that are being compared throughout the animations.
 const SWAPING_COLOR = '#0f0';
+
+const TOP_POSITION = 75;
+const TOP_SIZE = 50;
+const TOP_FONT = 20;
 
 export class BinaryTreeVisualizer extends React.Component {
     constructor(props) {
@@ -29,10 +35,26 @@ export class BinaryTreeVisualizer extends React.Component {
 
     resetArray() {
         const array = [];
-        for (let index = 0; index < 15; index++) {
-            array.push(randomIntFromInterval(1, 50));
+        const arraySize = randomIntFromInterval(5, 7);
+        for (let index = 0; index < Math.pow(2, arraySize) - 1; index++) {
+            array.push(randomIntFromInterval(1, 99));
         }
+
         this.setState({array});
+    }
+
+    resetColor() {
+        const circles = document.getElementsByClassName('circle');
+        for (let i = 0; i < circles.length; i++) {
+            circles[i].style.background = PRIMARY_COLOR;
+        }
+    }
+
+    setColor() {
+        const circles = document.getElementsByClassName('circle');
+        for (let i = 0; i < circles.length; i++) {
+            circles[i].style.background = SWAPING_COLOR;
+        }
     }
 
     buildHeap() {
@@ -44,7 +66,7 @@ export class BinaryTreeVisualizer extends React.Component {
             if (swaping !== 2 && swaping !== 3) {
                 const circleOneStyle = circles[v1].style;
                 const circleTwoStyle = circles[v2].style;
-                const color = swaping === 0 ? COMPARING_COLOR : PRIMARY_COLOR;
+                const color = swaping === 0 ? COMPARING_COLOR : HAS_COMPARED;
                 setTimeout(() => {
                     circleOneStyle.background = color;
                     circleTwoStyle.background = color;
@@ -52,7 +74,7 @@ export class BinaryTreeVisualizer extends React.Component {
             } else if (swaping === 2) {
                 const circleOneStyle = circles[v1].style;
                 const circleTwoStyle = circles[v2].style;
-                const color = swaping === 2 ? SWAPING_COLOR : PRIMARY_COLOR;
+                const color = swaping === 2 ? SWAPING_COLOR : HAS_COMPARED;
                 setTimeout(() => {
                     circleOneStyle.background = color;
                     circleTwoStyle.background = color;
@@ -62,10 +84,10 @@ export class BinaryTreeVisualizer extends React.Component {
                     const t = this.state.array.slice();
                     this.setState({t});
                 }, i * ANIMATION_SPEED_MS);
-            } else {
+            } else if (swaping === 3) {
                 const circleOneStyle = circles[v1].style;
                 const circleTwoStyle = circles[v2].style;
-                const color = swaping === 2 ? SWAPING_COLOR : PRIMARY_COLOR;
+                const color = swaping === 2 ? SWAPING_COLOR : HAS_COMPARED;
                 setTimeout(() => {
                     circleOneStyle.background = color;
                     circleTwoStyle.background = color;
@@ -76,59 +98,50 @@ export class BinaryTreeVisualizer extends React.Component {
 
     render() {
         const {array} = this.state;
-        const root = array[0];
-        const array1 = array.slice(1, 3);
-        const array2 = array.slice(3, 7);
-        const array3 = array.slice(7, 15);
+
+        const indexes = [];
+
+        for (let i = 0; Math.pow(2, i) < array.length; i++) {
+            indexes.push(i);
+        }
 
         return (
             <div className="bin-tree">
-                <div className="array-container1">
-                    <div
-                        className="circle"
-                        key={0}> {root}
-                    </div>
-                </div>
-                <div className="array-container2">
-                    {array1.map((value, idx) => (
-                    <div
-                        className="circle"
-                        key={idx}
-                        style={{
-                            margin: `0 90px`
-                        }}
+                {
+                    indexes.map(index => {
+                        return <div
+                            className="array-container"
+                            style={{
+                                bottom: `${TOP_POSITION - (index * 10)}%`
+                            }}
                         >
-                        {value}
-                    </div>
-                    ))}
-                </div>
-                <div className="array-container3">
-                    {array2.map((value, idx) => (
-                    <div
-                        className="circle"
-                        key={idx}
-                        style={{
-                            margin: `0 35px`
-                        }}
-                        >
-                        {value}
-                    </div>
-                    ))}
-                </div>
-                <div className="array-container4">
-                    {array3.map((value, idx) => (
-                    <div
-                        className="circle"
-                        key={idx}> {value}
-                    </div>
-                    ))}
-                </div>
+                        {
+                            array.slice(Math.pow(2, index) - 1, Math.pow(2, index+1) - 1).map((value, idx) => {
+                                return <div
+                                    className="circle"
+                                    key={idx}
+                                    style={{
+                                        margin: (index < 6) ? `0 ${10 * (Math.pow(2, 6 - index - 1) - 1)}px` : `0 0px`,
+                                        width: (index < 6) ? `${TOP_SIZE * (1 - (index * 0.1))}px` : `${TOP_SIZE * Math.pow(0.8, index)}px`,
+                                        height: (index < 6) ? `${TOP_SIZE * (1 - (index * 0.1))}px` : `${TOP_SIZE * Math.pow(0.8, index)}px`,
+                                        fontSize: (index < 6) ? `${TOP_FONT * (1 - (index * 0.1))}px` : `${TOP_FONT * Math.pow(0.8, index)}px`,
+                                        lineHeight: (index < 6) ? `${TOP_SIZE * (1 - (index * 0.1))}px` : `${TOP_SIZE * Math.pow(0.8, index)}px`,
+                                    }}
+                                >
+                                {value}
+                                </div>
+                    })}
+                        </div>
+                    })
+                }
+                <div className="line"></div>
+                <div className="line2"></div>
                 <button
                 className="button"
-                onClick={() => this.resetArray()}> Generate New Array </button>
+                onClick={() => {this.resetColor(); this.resetArray()}}> Generate New Heap </button>
                 <button
                 className="button"
-                onClick={() => this.buildHeap(/*this.state.array*/)}> Build Max Heap </button>
+                onClick={() => this.buildHeap()}> Build Max Heap </button>
             </div>
         );
     }
