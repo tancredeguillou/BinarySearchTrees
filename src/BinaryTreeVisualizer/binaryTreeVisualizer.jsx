@@ -3,7 +3,7 @@ import './binaryTreeVisualizer.css';
 import {buildMaxHeap} from '../Algorithms/algorithm.js';
 
 // Change this value for the speed of the animations.
-const ANIMATION_SPEED_MS = 20;
+const ANIMATION_SPEED_MS = 50;
 
 // This is the main color of the array bars.
 const PRIMARY_COLOR = '#333';
@@ -26,6 +26,7 @@ export class BinaryTreeVisualizer extends React.Component {
 
         this.state = {
             array: [],
+            building: 0
         }
     }
 
@@ -34,31 +35,42 @@ export class BinaryTreeVisualizer extends React.Component {
     }
 
     resetArray() {
+        this.setArray(randomIntFromInterval(4, 7));
+    }
+
+    setArray(i) {
+        if (this.state.building === 0) {
+            this.set(i);
+        } else {
+            const circles = document.getElementsByClassName('circle');
+            if (circles[0].style.background === `rgb(255, 153, 51)`) {
+                this.set(i);
+            }
+        }
+    }
+
+    set(i) {
+        this.setColor(PRIMARY_COLOR);
         const array = [];
-        const arraySize = randomIntFromInterval(5, 7);
+        const arraySize = i;
         for (let index = 0; index < Math.pow(2, arraySize) - 1; index++) {
             array.push(randomIntFromInterval(1, 99));
         }
 
-        this.setState({array});
+        this.setState({array: array, building: 0});
     }
 
-    resetColor() {
+    setColor(c) {
         const circles = document.getElementsByClassName('circle');
         for (let i = 0; i < circles.length; i++) {
-            circles[i].style.background = PRIMARY_COLOR;
-        }
-    }
-
-    setColor() {
-        const circles = document.getElementsByClassName('circle');
-        for (let i = 0; i < circles.length; i++) {
-            circles[i].style.background = SWAPING_COLOR;
+            circles[i].style.background = c;
         }
     }
 
     buildHeap() {
-        let original = this.state.array.slice();
+        if (this.state.building === 0) {
+            this.setState({building: 1});
+        const original = this.state.array.slice();
         const animations = buildMaxHeap(original);
         for (let i = 0; i < animations.length; i++) {
             const circles = document.getElementsByClassName('circle');
@@ -79,10 +91,16 @@ export class BinaryTreeVisualizer extends React.Component {
                     circleOneStyle.background = color;
                     circleTwoStyle.background = color;
                     const temp = this.state.array[v1];
-                    this.state.array[v1] = this.state.array[v2];
-                    this.state.array[v2] = temp;
-                    const t = this.state.array.slice();
-                    this.setState({t});
+                    const a = this.state.array;
+                    //
+                    a[v1] = a[v2];
+                    a[v2] = temp;
+                    /*this.state.array[v1] = this.state.array[v2];
+                    this.state.array[v2] = temp;*/
+                    //const t = this.state.array.slice();
+                    //const t = a.slice();
+                    //
+                    this.setState({a});
                 }, i * ANIMATION_SPEED_MS);
             } else if (swaping === 3) {
                 const circleOneStyle = circles[v1].style;
@@ -94,19 +112,53 @@ export class BinaryTreeVisualizer extends React.Component {
                 }, i * ANIMATION_SPEED_MS);
             }
         }
+        }
     }
 
     render() {
         const {array} = this.state;
 
         const indexes = [];
+        const levels = [2, 3, 4, 5, 6, 7];
 
         for (let i = 0; Math.pow(2, i) < array.length; i++) {
             indexes.push(i);
         }
 
         return (
-            <div className="bin-tree">
+            <div>
+                <div className="menu">
+                    <button
+                        className="button"
+                        style={{
+                            marginLeft : `-48%`
+                        }}
+                        onClick={() => this.resetArray()}>
+                        NEW HEAP !
+                    </button>
+                    <button
+                        className="button"
+                        style={{
+                            marginLeft : `35%`
+                        }}
+                        onClick={() => this.buildHeap()}>
+                            Build Max Heap
+                    </button>
+                    {
+                        levels.map(level => {
+                            return  <button
+                                className="levels"
+                                onClick={() => this.setArray(level)}
+                                style={{
+                                marginLeft : (level === 2 || level === 5) ? `-35%` : (level === 3 || level === 6) ? `-33%` : `-31%`,
+                                marginTop: (level < 5) ? `1%` : `3%`,
+                            }}>
+                            {level}
+                            </button>
+                        })
+                    }
+                    <input type="range" min="0" max="100" value="50"/>
+                </div>
                 {
                     indexes.map(index => {
                         return <div
@@ -134,14 +186,6 @@ export class BinaryTreeVisualizer extends React.Component {
                         </div>
                     })
                 }
-                <div className="line"></div>
-                <div className="line2"></div>
-                <button
-                className="button"
-                onClick={() => {this.resetColor(); this.resetArray()}}> Generate New Heap </button>
-                <button
-                className="button"
-                onClick={() => this.buildHeap()}> Build Max Heap </button>
             </div>
         );
     }

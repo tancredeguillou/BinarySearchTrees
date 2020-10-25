@@ -32,7 +32,7 @@ function maxHeapify(array, i, animations) {
         // These are the values that we're comparing; we push them a second
         // time to revert their color.
         animations.push([r, i, 1]);
-        if (array[r] > array [largest]) {
+        if (array[r] > array[largest]) {
             largest = r;
         }
     }
