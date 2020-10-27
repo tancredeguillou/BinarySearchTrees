@@ -1,9 +1,10 @@
 import React from 'react';
 import './binaryTreeVisualizer.css';
 import {buildMaxHeap} from '../Algorithms/algorithm.js';
+import {buildBinSearchTree} from '../Algorithms/algorithm.js';
 
 // Change this value for the speed of the animations.
-const ANIMATION_SPEED_MS = 50;
+let ANIMATION_SPEED_MS = 50;
 
 // This is the main color of the array bars.
 const PRIMARY_COLOR = '#333';
@@ -67,6 +68,10 @@ export class BinaryTreeVisualizer extends React.Component {
         }
     }
 
+    animSpeed(n) {
+        ANIMATION_SPEED_MS=n;
+    }
+
     buildHeap() {
         if (this.state.building === 0) {
             this.setState({building: 1});
@@ -92,14 +97,8 @@ export class BinaryTreeVisualizer extends React.Component {
                     circleTwoStyle.background = color;
                     const temp = this.state.array[v1];
                     const a = this.state.array;
-                    //
                     a[v1] = a[v2];
                     a[v2] = temp;
-                    /*this.state.array[v1] = this.state.array[v2];
-                    this.state.array[v2] = temp;*/
-                    //const t = this.state.array.slice();
-                    //const t = a.slice();
-                    //
                     this.setState({a});
                 }, i * ANIMATION_SPEED_MS);
             } else if (swaping === 3) {
@@ -112,6 +111,22 @@ export class BinaryTreeVisualizer extends React.Component {
                 }, i * ANIMATION_SPEED_MS);
             }
         }
+        }
+    }
+
+    buildBinSearchTree() {
+        const original = this.state.array.slice();
+        const animations = buildBinSearchTree(original);
+        for (let i = 0; i < animations.length; i++) {
+            const circles = document.getElementsByClassName('circle');
+            const [index, value] = animations[i];
+            const circleStyle = circles[index].style;
+            setTimeout(() => {
+                circleStyle.background = HAS_COMPARED;
+                const a = this.state.array;
+                a[index] = value;
+                this.setState({a});
+            }, i * ANIMATION_SPEED_MS);
         }
     }
 
@@ -157,7 +172,39 @@ export class BinaryTreeVisualizer extends React.Component {
                             </button>
                         })
                     }
-                    <input type="range" min="0" max="100" value="50"/>
+                    <button
+                        className="levels"
+                        style={{
+                            marginLeft : `32%`,
+                            marginTop: `0.3%`
+                        }}
+                        onClick={() => this.animSpeed(200)}>
+                            S
+                    </button>
+                    <button
+                        className="levels"
+                        style={{
+                            marginLeft : `32%`,
+                            marginTop: `2.3%`
+                        }}
+                        onClick={() => this.animSpeed(75)}>
+                            M
+                    </button>
+                    <button
+                        className="levels"
+                        style={{
+                            marginLeft : `32%`,
+                            marginTop: `4.3%`
+                        }}
+                        onClick={() => this.animSpeed(20)}>
+                            F
+                    </button>
+                    <button
+                        className="button"
+                        
+                        onClick={() => this.buildBinSearchTree()}>
+                            Build Bin Tree
+                    </button>
                 </div>
                 {
                     indexes.map(index => {

@@ -52,3 +52,23 @@ function maxHeapify(array, i, animations) {
         maxHeapify(array, largest, animations);
     }
 }
+
+
+export function buildBinSearchTree(array) {
+    array.sort((a, b) => a - b);
+    const animations = [];
+    animations.push([0, bst(array, animations, 0, array.length - 1, 0, 0)]);
+    return animations;
+}
+
+function bst(sortedArray, animations, start, end, level, i) {
+    const mid = Math.floor((start + end) / 2);
+    // can this node have children ?
+    if (Math.pow(2, level+1) < sortedArray.length) {
+        // this is the left child of the mid node
+        animations.push([2 * i + 1, bst(sortedArray, animations, start, mid-1, level+1, 2*i+1)]);
+        // this is the right child of the mid node
+        animations.push([2 * i + 2, bst(sortedArray, animations, mid+1, end, level+1, 2*i+2)]);
+    }
+    return sortedArray[mid];
+}
