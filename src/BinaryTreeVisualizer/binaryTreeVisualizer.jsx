@@ -203,7 +203,7 @@ export class BinaryTreeVisualizer extends React.Component {
                         className="button"
                         
                         onClick={() => this.buildBinSearchTree()}>
-                            Build Bin Tree
+                            Build Binary Tree
                     </button>
                 </div>
                 {
