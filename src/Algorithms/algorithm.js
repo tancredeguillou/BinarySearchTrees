@@ -61,14 +61,60 @@ export function buildBinSearchTree(array) {
     return animations;
 }
 
-function bst(sortedArray, animations, start, end, level, i) {
+function bst(sortedArray, animations, start, end, level, index) {
     const mid = Math.floor((start + end) / 2);
     // can this node have children ?
     if (Math.pow(2, level+1) < sortedArray.length) {
         // this is the left child of the mid node
-        animations.push([2 * i + 1, bst(sortedArray, animations, start, mid-1, level+1, 2*i+1)]);
+        animations.push([2 * index + 1, bst(sortedArray, animations, start, mid-1, level+1, 2*index+1)]);
         // this is the right child of the mid node
-        animations.push([2 * i + 2, bst(sortedArray, animations, mid+1, end, level+1, 2*i+2)]);
+        animations.push([2 * index + 2, bst(sortedArray, animations, mid+1, end, level+1, 2*index+2)]);
     }
     return sortedArray[mid];
+}
+
+
+export function inorderTreeWalk(length) {
+    const animations = [];
+    itw(length, animations, 0, 0);
+    return animations;
+}
+
+function itw(length, animations, level, index) {
+    // can this node have children ?
+    if (Math.pow(2, level) < length) {
+        itw(length, animations, level + 1, 2 * index + 1);
+        animations.push(index);
+        itw(length, animations, level + 1, 2 * index + 2);
+    }
+}
+
+export function postorderTreeWalk(length) {
+    const animations = [];
+    potw(length, animations, 0, 0);
+    return animations;
+}
+
+function potw(length, animations, level, index) {
+    // can this node have children ?
+    if (Math.pow(2, level) < length) {
+        potw(length, animations, level + 1, 2 * index + 1);
+        potw(length, animations, level + 1, 2 * index + 2);
+        animations.push(index);
+    }
+}
+
+export function preorderTreeWalk(length) {
+    const animations = [];
+    ptw(length, animations, 0, 0);
+    return animations;
+}
+
+function ptw(length, animations, level, index) {
+    // can this node have children ?
+    if (Math.pow(2, level) < length) {
+        animations.push(index);
+        itw(length, animations, level + 1, 2 * index + 1);
+        itw(length, animations, level + 1, 2 * index + 2);
+    }
 }

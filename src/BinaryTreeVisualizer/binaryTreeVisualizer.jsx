@@ -1,13 +1,27 @@
 import React from 'react';
 import './binaryTreeVisualizer.css';
-import {buildMaxHeap} from '../Algorithms/algorithm.js';
-import {buildBinSearchTree} from '../Algorithms/algorithm.js';
+import {buildMaxHeap, buildBinSearchTree, inorderTreeWalk,
+            preorderTreeWalk, postorderTreeWalk} from '../Algorithms/algorithm.js';
+
+/*BFDBFF
+A4CEFF
+FEDFA4
+B29150*/
+
+/*
+FF5F31
+5DC7FF
+9AE897
+FFE26E
+*/
+
+
 
 // Change this value for the speed of the animations.
 let ANIMATION_SPEED_MS = 50;
 
 // This is the main color of the array bars.
-const PRIMARY_COLOR = '#333';
+const PRIMARY_COLOR = '#21587F';
 
 // This is the color of array bars that are being compared throughout the animations.
 const COMPARING_COLOR = '#f00';
@@ -20,6 +34,8 @@ const SWAPING_COLOR = '#0f0';
 const TOP_POSITION = 75;
 const TOP_SIZE = 50;
 const TOP_FONT = 20;
+const LEVELS = [2, 3, 4, 5, 6, 7];
+const MARGINS = [0, 200, 99, 42.3, 15, 2.6, 1];
 
 export class BinaryTreeVisualizer extends React.Component {
     constructor(props) {
@@ -77,8 +93,8 @@ export class BinaryTreeVisualizer extends React.Component {
             this.setState({building: 1});
         const original = this.state.array.slice();
         const animations = buildMaxHeap(original);
+        const circles = document.getElementsByClassName('circle');
         for (let i = 0; i < animations.length; i++) {
-            const circles = document.getElementsByClassName('circle');
             const [v1, v2, swaping] = animations[i];
             if (swaping !== 2 && swaping !== 3) {
                 const circleOneStyle = circles[v1].style;
@@ -117,8 +133,9 @@ export class BinaryTreeVisualizer extends React.Component {
     buildBinSearchTree() {
         const original = this.state.array.slice();
         const animations = buildBinSearchTree(original);
+        const circles = document.getElementsByClassName('circle');
         for (let i = 0; i < animations.length; i++) {
-            const circles = document.getElementsByClassName('circle');
+            
             const [index, value] = animations[i];
             const circleStyle = circles[index].style;
             setTimeout(() => {
@@ -130,18 +147,53 @@ export class BinaryTreeVisualizer extends React.Component {
         }
     }
 
+    showInorderWalk() {
+        const animations = inorderTreeWalk(this.state.array.length);
+        const circles = document.getElementsByClassName('circle');
+        for (let i = 0; i < animations.length; i++) {
+            const index = animations[i];
+            const circleStyle = circles[index].style;
+            setTimeout(() => {
+                circleStyle.background = SWAPING_COLOR;
+            }, i * ANIMATION_SPEED_MS);
+        }
+    }
+
+    showPreorderWalk() {
+        const animations = preorderTreeWalk(this.state.array.length);
+        const circles = document.getElementsByClassName('circle');
+        for (let i = 0; i < animations.length; i++) {
+            const index = animations[i];
+            const circleStyle = circles[index].style;
+            setTimeout(() => {
+                circleStyle.background = SWAPING_COLOR;
+            }, i * ANIMATION_SPEED_MS);
+        }
+    }
+
+    showPostorderWalk() {
+        const animations = postorderTreeWalk(this.state.array.length);
+        const circles = document.getElementsByClassName('circle');
+        for (let i = 0; i < animations.length; i++) {
+            const index = animations[i];
+            const circleStyle = circles[index].style;
+            setTimeout(() => {
+                circleStyle.background = SWAPING_COLOR;
+            }, i * ANIMATION_SPEED_MS);
+        }
+    }
+
     render() {
         const {array} = this.state;
 
         const indexes = [];
-        const levels = [2, 3, 4, 5, 6, 7];
 
         for (let i = 0; Math.pow(2, i) < array.length; i++) {
             indexes.push(i);
         }
 
         return (
-            <div>
+            <div className="bin-tree">
                 <div className="menu">
                     <button
                         className="button"
@@ -160,7 +212,7 @@ export class BinaryTreeVisualizer extends React.Component {
                             Build Max Heap
                     </button>
                     {
-                        levels.map(level => {
+                        LEVELS.map(level => {
                             return  <button
                                 className="levels"
                                 onClick={() => this.setArray(level)}
@@ -178,7 +230,7 @@ export class BinaryTreeVisualizer extends React.Component {
                             marginLeft : `32%`,
                             marginTop: `0.3%`
                         }}
-                        onClick={() => this.animSpeed(200)}>
+                        onClick={() => this.animSpeed(500)}>
                             S
                     </button>
                     <button
@@ -205,7 +257,32 @@ export class BinaryTreeVisualizer extends React.Component {
                         onClick={() => this.buildBinSearchTree()}>
                             Build Binary Tree
                     </button>
+                    <button
+                        className="button"
+                        style={{
+                            marginLeft : `15%`
+                        }}
+                        onClick={() => this.showInorderWalk()}>
+                        itw
+                    </button>
+                    <button
+                        className="button"
+                        style={{
+                            marginLeft : `-15%`
+                        }}
+                        onClick={() => this.showPreorderWalk()}>
+                        ptw
+                    </button>
+                    <button
+                        className="button"
+                        style={{
+                            marginLeft : `-10%`
+                        }}
+                        onClick={() => this.showPostorderWalk()}>
+                        potw
+                    </button>
                 </div>
+                <div className="bar"></div>
                 {
                     indexes.map(index => {
                         return <div
@@ -220,7 +297,7 @@ export class BinaryTreeVisualizer extends React.Component {
                                     className="circle"
                                     key={idx}
                                     style={{
-                                        margin: (index < 6) ? `0 ${10 * (Math.pow(2, 6 - index - 1) - 1)}px` : `0 0px`,
+                                        margin: `0 ${MARGINS[index]}px`,//(index < 6) ? `0 ${10 * (Math.pow(2, 6 - index - 1) - 1)}px` : `0 0.3px`,
                                         width: (index < 6) ? `${TOP_SIZE * (1 - (index * 0.1))}px` : `${TOP_SIZE * Math.pow(0.8, index)}px`,
                                         height: (index < 6) ? `${TOP_SIZE * (1 - (index * 0.1))}px` : `${TOP_SIZE * Math.pow(0.8, index)}px`,
                                         fontSize: (index < 6) ? `${TOP_FONT * (1 - (index * 0.1))}px` : `${TOP_FONT * Math.pow(0.8, index)}px`,
