@@ -55,8 +55,16 @@ function maxHeapify(array, i, animations) {
 
 
 export function buildBinSearchTree(array) {
-    array.sort((a, b) => a - b);
+    const duplicate = [];
+    for (let index = 0; index < array.length; index++) {
+        duplicate.push([array[index], index]);
+    }
+    duplicate.sort(([a, c], [b, d]) => a - b);
     const animations = [];
+    for (let index = 0; index < duplicate.length; index++) {
+        animations.push(duplicate[index][1]);
+    }
+    array.sort((a, b) => a - b);
     animations.push([0, bst(array, animations, 0, array.length - 1, 0, 0)]);
     return animations;
 }

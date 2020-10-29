@@ -3,38 +3,27 @@ import './binaryTreeVisualizer.css';
 import {buildMaxHeap, buildBinSearchTree, inorderTreeWalk,
             preorderTreeWalk, postorderTreeWalk} from '../Algorithms/algorithm.js';
 
-/*BFDBFF
-A4CEFF
-FEDFA4
-B29150*/
-
-/*
-FF5F31
-5DC7FF
-9AE897
-FFE26E
-*/
-
 
 
 // Change this value for the speed of the animations.
-let ANIMATION_SPEED_MS = 50;
+let ANIMATION_SPEED_MS = 100;
 
 // This is the main color of the array bars.
 const PRIMARY_COLOR = '#21587F';
 
 // This is the color of array bars that are being compared throughout the animations.
-const COMPARING_COLOR = '#f00';
+const COMPARING_COLOR = '#DD5146';
 
 const HAS_COMPARED = '#f93';
 
 // This is the color of array bars that are being compared throughout the animations.
-const SWAPING_COLOR = '#0f0';
+const SWAPING_COLOR = '#1AA15F';
+
+let WALK_COLOR = HAS_COMPARED;
 
 const TOP_POSITION = 75;
 const TOP_SIZE = 50;
 const TOP_FONT = 20;
-const LEVELS = [2, 3, 4, 5, 6, 7];
 const MARGINS = [0, 200, 99, 42.3, 15, 2.6, 1];
 
 export class BinaryTreeVisualizer extends React.Component {
@@ -135,26 +124,37 @@ export class BinaryTreeVisualizer extends React.Component {
         const animations = buildBinSearchTree(original);
         const circles = document.getElementsByClassName('circle');
         for (let i = 0; i < animations.length; i++) {
-            
-            const [index, value] = animations[i];
-            const circleStyle = circles[index].style;
-            setTimeout(() => {
-                circleStyle.background = HAS_COMPARED;
-                const a = this.state.array;
-                a[index] = value;
-                this.setState({a});
-            }, i * ANIMATION_SPEED_MS);
+            // we are sorting the array
+            if (i < original.length) {
+                const index = animations[i];
+                const circleStyle = circles[index].style;
+                setTimeout(() => {
+                    circleStyle.background = COMPARING_COLOR;
+                }, i * ANIMATION_SPEED_MS);
+            } 
+            // we are creating the tree
+            else {
+                const [index, value] = animations[i];
+                const circleStyle = circles[index].style;
+                setTimeout(() => {
+                    circleStyle.background = HAS_COMPARED;
+                    const a = this.state.array;
+                    a[index] = value;
+                    this.setState({a});
+                }, i * ANIMATION_SPEED_MS);
+            }
         }
     }
 
     showInorderWalk() {
         const animations = inorderTreeWalk(this.state.array.length);
         const circles = document.getElementsByClassName('circle');
+        WALK_COLOR  = WALK_COLOR === HAS_COMPARED ? SWAPING_COLOR : HAS_COMPARED;
         for (let i = 0; i < animations.length; i++) {
             const index = animations[i];
             const circleStyle = circles[index].style;
             setTimeout(() => {
-                circleStyle.background = SWAPING_COLOR;
+                circleStyle.background = WALK_COLOR;
             }, i * ANIMATION_SPEED_MS);
         }
     }
@@ -162,11 +162,12 @@ export class BinaryTreeVisualizer extends React.Component {
     showPreorderWalk() {
         const animations = preorderTreeWalk(this.state.array.length);
         const circles = document.getElementsByClassName('circle');
+        WALK_COLOR  = WALK_COLOR === HAS_COMPARED ? SWAPING_COLOR : HAS_COMPARED;
         for (let i = 0; i < animations.length; i++) {
             const index = animations[i];
             const circleStyle = circles[index].style;
             setTimeout(() => {
-                circleStyle.background = SWAPING_COLOR;
+                circleStyle.background = WALK_COLOR;
             }, i * ANIMATION_SPEED_MS);
         }
     }
@@ -174,11 +175,12 @@ export class BinaryTreeVisualizer extends React.Component {
     showPostorderWalk() {
         const animations = postorderTreeWalk(this.state.array.length);
         const circles = document.getElementsByClassName('circle');
+        WALK_COLOR  = WALK_COLOR === HAS_COMPARED ? SWAPING_COLOR : HAS_COMPARED;
         for (let i = 0; i < animations.length; i++) {
             const index = animations[i];
             const circleStyle = circles[index].style;
             setTimeout(() => {
-                circleStyle.background = SWAPING_COLOR;
+                circleStyle.background = WALK_COLOR;
             }, i * ANIMATION_SPEED_MS);
         }
     }
@@ -193,92 +195,7 @@ export class BinaryTreeVisualizer extends React.Component {
         }
 
         return (
-            <div className="bin-tree">
-                <div className="menu">
-                    
-                    <button
-                        className="button"
-                        style={{
-                            marginLeft : `35%`
-                        }}
-                        onClick={() => this.buildHeap()}>
-                            Build Max Heap
-                    </button>
-                    <button
-                        className="levels"
-                        style={{
-                            marginLeft : `32%`,
-                            marginTop: `0.3%`
-                        }}
-                        onClick={() => this.animSpeed(500)}>
-                            S
-                    </button>
-                    <button
-                        className="levels"
-                        style={{
-                            marginLeft : `32%`,
-                            marginTop: `2.3%`
-                        }}
-                        onClick={() => this.animSpeed(75)}>
-                            M
-                    </button>
-                    <button
-                        className="levels"
-                        style={{
-                            marginLeft : `32%`,
-                            marginTop: `4.3%`
-                        }}
-                        onClick={() => this.animSpeed(20)}>
-                            F
-                    </button>
-                    <button
-                        className="button"
-                        
-                        onClick={() => this.buildBinSearchTree()}>
-                            Build Binary Tree
-                    </button>
-                    
-                    <div className="bar"></div>
-
-                    <div class="hamburger-menu__wrapper">
-                        
-                        <div class="hamburger-menu">
-                            <div class="hamburger-menu__wrapper">
-                                <input type="checkbox" />
-                                <div class="hamburger-menu__button"> NEW TREE
-                                </div>
-                                <div class="hamburger-menu__slider">
-                                    <div class="hamburger-menu__item" onClick={() => this.setArray(3)}>3 levels</div>
-                                    <div class="hamburger-menu__item" onClick={() => this.setArray(4)}>4 levels</div>
-                                    <div class="hamburger-menu__item" onClick={() => this.setArray(5)}>5 levels</div>
-                                    <div class="hamburger-menu__item" onClick={() => this.setArray(6)}>6 levels</div>
-                                    <div class="hamburger-menu__item" onClick={() => this.setArray(7)}>7 levels</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="hamburger-menu__wrapper"
-                        style={{
-                            marginLeft: `300px`
-                        }}
-                        >
-                        
-                        <div class="hamburger-menu">
-                            <div class="hamburger-menu__wrapper">
-                                <input type="checkbox" />
-                                <div class="hamburger-menu__button"> WALKS
-                                </div>
-                                <div class="hamburger-menu__slider">
-                                    <div class="hamburger-menu__item" onClick={() => this.showInorderWalk}>In Order</div>
-                                    <div class="hamburger-menu__item" onClick={() => this.showPostorderWalk}>Post Order</div>
-                                    <div class="hamburger-menu__item" onClick={() => this.showPreorderWalk}>Pre Order</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                </div>
+            <div>
                 {
                     indexes.map(index => {
                         return <div
@@ -306,6 +223,43 @@ export class BinaryTreeVisualizer extends React.Component {
                         </div>
                     })
                 }
+                <div className="bar"></div>
+                <header class="nested-dropdown__header">
+                    <strong>Welcome</strong>
+                    <ul class="nested-dropdown__categories">
+                        <li class="nested-dropdown__category">
+                            <span>MENU</span>
+                            <ul class="nested-dropdown__menu">
+                                <li class="nested-dropdown__subcategory">
+                                    <span>New Tree</span>
+                                    <ul class="nested-dropdown__submenu">
+                                        <li className="button" onClick={()=> this.setArray(4)}>4 Levels</li>
+                                        <li className="button" onClick={()=> this.setArray(5)}>5 Levels</li>
+                                        <li className="button" onClick={()=> this.setArray(6)}>6 Levels</li>
+                                        <li className="button" onClick={()=> this.setArray(7)}>7 Levels</li>
+                                    </ul>
+                                </li>
+                                <li class="nested-dropdown__subcategory">
+                                    <span>Build Max Heap</span>
+                                    <ul class="nested-dropdown__submenu">
+                                        <li className="button" onClick={()=> {this.animSpeed(300); this.buildHeap(); this.animSpeed(100);}}>Slow Speed</li>
+                                        <li className="button" onClick={()=> this.buildHeap()}>Medium Speed</li>
+                                        <li className="button" onClick={()=> {this.animSpeed(20); this.buildHeap(); this.animSpeed(100);}}>Fast Speed</li>
+                                    </ul>
+                                </li>
+                                <li class="nested-dropdown__subcategory">
+                                    <span>Tree Walk</span>
+                                    <ul class="nested-dropdown__submenu">
+                                        <li className="button" onClick={()=> this.showInorderWalk()}>In Order</li>
+                                        <li className="button" onClick={()=> this.showPreorderWalk()}>Pre Order</li>
+                                        <li className="button" onClick={()=> this.showPostorderWalk()}>Post Order</li>
+                                    </ul>
+                                </li>
+                                <li className="button" onClick={()=> this.buildBinSearchTree()}>Build Binary Search Tree</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </header>
             </div>
         );
     }
@@ -315,56 +269,3 @@ export class BinaryTreeVisualizer extends React.Component {
     function randomIntFromInterval(min, max) {
         return Math.floor(Math.random() * (max - min + 1) + min);
     }
-
-
-
-    /*
-    <button
-                        className="button"
-                        style={{
-                            marginLeft : `-48%`
-                        }}
-                        onClick={() => this.resetArray()}>
-                        NEW HEAP !
-                    </button>
-                    */
-
-/*
-
-*/
-
-
-/*
-<header class="nested-dropdown__header">
-  <ul class="nested-dropdown__categories">
-    <li class="nested-dropdown__category">
-      <span>Cat 1</span>
-      <ul class="nested-dropdown__menu">
-        <li class="nested-dropdown__subcategory">
-          <span>Sub Cat 1</span>
-          <ul class="nested-dropdown__submenu">
-            <li>Sub Cat 1 Thing</li>
-            <li>Sub Cat 1 Thing</li>
-            <li>Sub Cat 1 Thing</li>
-            <li>Sub Cat 1 Thing</li>
-          </ul>
-        </li>
-        <li class="nested-dropdown__subcategory">
-          <span>Sub Cat 2</span>
-          <ul class="nested-dropdown__submenu">
-            <li>Sub Cat 2 Thing</li>
-            <li>Sub Cat 2 Thing</li>
-            <li>Sub Cat 2 Thing</li>
-          </ul>
-        </li>
-        <li>Cat 1 Thing</li>
-        <li>Cat 1 Thing</li>
-      </ul>
-    </li>
-  </ul>
-</header>
-*/
-
-/*
-
-*/
