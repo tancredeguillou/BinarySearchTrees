@@ -195,14 +195,7 @@ export class BinaryTreeVisualizer extends React.Component {
         return (
             <div className="bin-tree">
                 <div className="menu">
-                    <button
-                        className="button"
-                        style={{
-                            marginLeft : `-48%`
-                        }}
-                        onClick={() => this.resetArray()}>
-                        NEW HEAP !
-                    </button>
+                    
                     <button
                         className="button"
                         style={{
@@ -211,19 +204,6 @@ export class BinaryTreeVisualizer extends React.Component {
                         onClick={() => this.buildHeap()}>
                             Build Max Heap
                     </button>
-                    {
-                        LEVELS.map(level => {
-                            return  <button
-                                className="levels"
-                                onClick={() => this.setArray(level)}
-                                style={{
-                                marginLeft : (level === 2 || level === 5) ? `-35%` : (level === 3 || level === 6) ? `-33%` : `-31%`,
-                                marginTop: (level < 5) ? `1%` : `3%`,
-                            }}>
-                            {level}
-                            </button>
-                        })
-                    }
                     <button
                         className="levels"
                         style={{
@@ -257,32 +237,48 @@ export class BinaryTreeVisualizer extends React.Component {
                         onClick={() => this.buildBinSearchTree()}>
                             Build Binary Tree
                     </button>
-                    <button
-                        className="button"
+                    
+                    <div className="bar"></div>
+
+                    <div class="hamburger-menu__wrapper">
+                        
+                        <div class="hamburger-menu">
+                            <div class="hamburger-menu__wrapper">
+                                <input type="checkbox" />
+                                <div class="hamburger-menu__button"> NEW TREE
+                                </div>
+                                <div class="hamburger-menu__slider">
+                                    <div class="hamburger-menu__item" onClick={() => this.setArray(3)}>3 levels</div>
+                                    <div class="hamburger-menu__item" onClick={() => this.setArray(4)}>4 levels</div>
+                                    <div class="hamburger-menu__item" onClick={() => this.setArray(5)}>5 levels</div>
+                                    <div class="hamburger-menu__item" onClick={() => this.setArray(6)}>6 levels</div>
+                                    <div class="hamburger-menu__item" onClick={() => this.setArray(7)}>7 levels</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="hamburger-menu__wrapper"
                         style={{
-                            marginLeft : `15%`
+                            marginLeft: `300px`
                         }}
-                        onClick={() => this.showInorderWalk()}>
-                        itw
-                    </button>
-                    <button
-                        className="button"
-                        style={{
-                            marginLeft : `-15%`
-                        }}
-                        onClick={() => this.showPreorderWalk()}>
-                        ptw
-                    </button>
-                    <button
-                        className="button"
-                        style={{
-                            marginLeft : `-10%`
-                        }}
-                        onClick={() => this.showPostorderWalk()}>
-                        potw
-                    </button>
+                        >
+                        
+                        <div class="hamburger-menu">
+                            <div class="hamburger-menu__wrapper">
+                                <input type="checkbox" />
+                                <div class="hamburger-menu__button"> WALKS
+                                </div>
+                                <div class="hamburger-menu__slider">
+                                    <div class="hamburger-menu__item" onClick={() => this.showInorderWalk}>In Order</div>
+                                    <div class="hamburger-menu__item" onClick={() => this.showPostorderWalk}>Post Order</div>
+                                    <div class="hamburger-menu__item" onClick={() => this.showPreorderWalk}>Pre Order</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div className="bar"></div>
+
+                </div>
                 {
                     indexes.map(index => {
                         return <div
@@ -319,3 +315,56 @@ export class BinaryTreeVisualizer extends React.Component {
     function randomIntFromInterval(min, max) {
         return Math.floor(Math.random() * (max - min + 1) + min);
     }
+
+
+
+    /*
+    <button
+                        className="button"
+                        style={{
+                            marginLeft : `-48%`
+                        }}
+                        onClick={() => this.resetArray()}>
+                        NEW HEAP !
+                    </button>
+                    */
+
+/*
+
+*/
+
+
+/*
+<header class="nested-dropdown__header">
+  <ul class="nested-dropdown__categories">
+    <li class="nested-dropdown__category">
+      <span>Cat 1</span>
+      <ul class="nested-dropdown__menu">
+        <li class="nested-dropdown__subcategory">
+          <span>Sub Cat 1</span>
+          <ul class="nested-dropdown__submenu">
+            <li>Sub Cat 1 Thing</li>
+            <li>Sub Cat 1 Thing</li>
+            <li>Sub Cat 1 Thing</li>
+            <li>Sub Cat 1 Thing</li>
+          </ul>
+        </li>
+        <li class="nested-dropdown__subcategory">
+          <span>Sub Cat 2</span>
+          <ul class="nested-dropdown__submenu">
+            <li>Sub Cat 2 Thing</li>
+            <li>Sub Cat 2 Thing</li>
+            <li>Sub Cat 2 Thing</li>
+          </ul>
+        </li>
+        <li>Cat 1 Thing</li>
+        <li>Cat 1 Thing</li>
+      </ul>
+    </li>
+  </ul>
+</header>
+*/
+
+/*
+
+*/
