@@ -13,11 +13,11 @@ const PRIMARY_COLOR = '#21587F';
 
 // This is the color of array bars that are being compared throughout the animations.
 const COMPARING_COLOR = '#DD5146';
-
+const SWAPING_COLOR = '#1AA15F';
 const HAS_COMPARED = '#f93';
 
-// This is the color of array bars that are being compared throughout the animations.
-const SWAPING_COLOR = '#1AA15F';
+const BMH_COMPARING_COLOR = '#f00';
+const BMH_SWAPING_COLOR = '#0f0';
 
 let WALK_COLOR = HAS_COMPARED;
 
@@ -26,13 +26,15 @@ const TOP_SIZE = 50;
 const TOP_FONT = 20;
 const MARGINS = [0, 200, 99, 42.3, 15, 2.6, 1];
 
+let action = 0;
+
 export class BinaryTreeVisualizer extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
             array: [],
-            building: 0
+            born: 0
         }
     }
 
@@ -45,14 +47,15 @@ export class BinaryTreeVisualizer extends React.Component {
     }
 
     setArray(i) {
-        if (this.state.building === 0) {
+        this.set(i);
+        /*if (this.state.born === 0) {
             this.set(i);
         } else {
             const circles = document.getElementsByClassName('circle');
             if (circles[0].style.background === `rgb(255, 153, 51)`) {
                 this.set(i);
             }
-        }
+        }*/
     }
 
     set(i) {
@@ -63,7 +66,7 @@ export class BinaryTreeVisualizer extends React.Component {
             array.push(randomIntFromInterval(1, 99));
         }
 
-        this.setState({array: array, building: 0});
+        this.setState({array: array, born:1});
     }
 
     setColor(c) {
@@ -78,8 +81,6 @@ export class BinaryTreeVisualizer extends React.Component {
     }
 
     buildHeap() {
-        if (this.state.building === 0) {
-            this.setState({building: 1});
         const original = this.state.array.slice();
         const animations = buildMaxHeap(original);
         const circles = document.getElementsByClassName('circle');
@@ -88,7 +89,7 @@ export class BinaryTreeVisualizer extends React.Component {
             if (swaping !== 2 && swaping !== 3) {
                 const circleOneStyle = circles[v1].style;
                 const circleTwoStyle = circles[v2].style;
-                const color = swaping === 0 ? COMPARING_COLOR : HAS_COMPARED;
+                const color = swaping === 0 ? BMH_COMPARING_COLOR : HAS_COMPARED;
                 setTimeout(() => {
                     circleOneStyle.background = color;
                     circleTwoStyle.background = color;
@@ -96,7 +97,7 @@ export class BinaryTreeVisualizer extends React.Component {
             } else if (swaping === 2) {
                 const circleOneStyle = circles[v1].style;
                 const circleTwoStyle = circles[v2].style;
-                const color = swaping === 2 ? SWAPING_COLOR : HAS_COMPARED;
+                const color = swaping === 2 ? BMH_SWAPING_COLOR : HAS_COMPARED;
                 setTimeout(() => {
                     circleOneStyle.background = color;
                     circleTwoStyle.background = color;
@@ -104,18 +105,17 @@ export class BinaryTreeVisualizer extends React.Component {
                     const a = this.state.array;
                     a[v1] = a[v2];
                     a[v2] = temp;
-                    this.setState({a});
+                    this.setState({array: a, born:1});
                 }, i * ANIMATION_SPEED_MS);
             } else if (swaping === 3) {
                 const circleOneStyle = circles[v1].style;
                 const circleTwoStyle = circles[v2].style;
-                const color = swaping === 2 ? SWAPING_COLOR : HAS_COMPARED;
+                const color = swaping === 2 ? BMH_SWAPING_COLOR : HAS_COMPARED;
                 setTimeout(() => {
                     circleOneStyle.background = color;
                     circleTwoStyle.background = color;
                 }, i * ANIMATION_SPEED_MS);
             }
-        }
         }
     }
 
@@ -140,7 +140,7 @@ export class BinaryTreeVisualizer extends React.Component {
                     circleStyle.background = HAS_COMPARED;
                     const a = this.state.array;
                     a[index] = value;
-                    this.setState({a});
+                    this.setState({array: a, born:1});
                 }, i * ANIMATION_SPEED_MS);
             }
         }
@@ -190,9 +190,28 @@ export class BinaryTreeVisualizer extends React.Component {
 
         const indexes = [];
 
+        let action = 0;
+        /*if (this.state.born === 1) {
+        const circles = document.getElementsByClassName('circle');
+        console.log(circles.length);
+        if (circles[0] != null) {
+            const color = circles[0].style.background;
+
+        for (let i = 0; i < circles.length; i++) {
+            if (circles[i].style.background != color) {
+                action = 1;
+            }
+        }
+        }
+        
+        }*/
+        
+
         for (let i = 0; Math.pow(2, i) < array.length; i++) {
             indexes.push(i);
         }
+
+
 
         return (
             <div>
@@ -210,11 +229,12 @@ export class BinaryTreeVisualizer extends React.Component {
                                     className="circle"
                                     key={idx}
                                     style={{
-                                        margin: `0 ${MARGINS[index]}px`,//(index < 6) ? `0 ${10 * (Math.pow(2, 6 - index - 1) - 1)}px` : `0 0.3px`,
+                                        margin: `0 ${MARGINS[index]}px`,
                                         width: (index < 6) ? `${TOP_SIZE * (1 - (index * 0.1))}px` : `${TOP_SIZE * Math.pow(0.8, index)}px`,
                                         height: (index < 6) ? `${TOP_SIZE * (1 - (index * 0.1))}px` : `${TOP_SIZE * Math.pow(0.8, index)}px`,
                                         fontSize: (index < 6) ? `${TOP_FONT * (1 - (index * 0.1))}px` : `${TOP_FONT * Math.pow(0.8, index)}px`,
                                         lineHeight: (index < 6) ? `${TOP_SIZE * (1 - (index * 0.1))}px` : `${TOP_SIZE * Math.pow(0.8, index)}px`,
+                                        background: (value == 0) ? `#fff` : `#21587F`,
                                     }}
                                 >
                                 {value}
@@ -242,20 +262,20 @@ export class BinaryTreeVisualizer extends React.Component {
                                 <li class="nested-dropdown__subcategory">
                                     <span>Build Max Heap</span>
                                     <ul class="nested-dropdown__submenu">
-                                        <li className="button" onClick={()=> {this.animSpeed(300); this.buildHeap(); this.animSpeed(100);}}>Slow Speed</li>
-                                        <li className="button" onClick={()=> this.buildHeap()}>Medium Speed</li>
-                                        <li className="button" onClick={()=> {this.animSpeed(20); this.buildHeap(); this.animSpeed(100);}}>Fast Speed</li>
+                                        <li className="button" onClick={()=> {if (action===0) {this.animSpeed(300); this.buildHeap(); this.animSpeed(100);}}}>Slow Speed</li>
+                                        <li className="button" onClick={()=> {if (action===0) {this.buildHeap()}}}>Medium Speed</li>
+                                        <li className="button" onClick={()=> {if (action===0) {this.animSpeed(20); this.buildHeap(); this.animSpeed(100);}}}>Fast Speed</li>
                                     </ul>
                                 </li>
                                 <li class="nested-dropdown__subcategory">
                                     <span>Tree Walk</span>
                                     <ul class="nested-dropdown__submenu">
-                                        <li className="button" onClick={()=> this.showInorderWalk()}>In Order</li>
-                                        <li className="button" onClick={()=> this.showPreorderWalk()}>Pre Order</li>
-                                        <li className="button" onClick={()=> this.showPostorderWalk()}>Post Order</li>
+                                        <li className="button" onClick={()=> {if(action===0) {this.showInorderWalk()}}}>In Order</li>
+                                        <li className="button" onClick={()=> {if(action===0) {this.showPreorderWalk()}}}>Pre Order</li>
+                                        <li className="button" onClick={()=> {if(action===0) {this.showPostorderWalk()}}}>Post Order</li>
                                     </ul>
                                 </li>
-                                <li className="button" onClick={()=> this.buildBinSearchTree()}>Build Binary Search Tree</li>
+                                <li className="button" onClick={()=> {if(action===0) {this.buildBinSearchTree()}}}>Build Binary Search Tree</li>
                             </ul>
                         </li>
                     </ul>
