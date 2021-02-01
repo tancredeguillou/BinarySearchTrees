@@ -47,18 +47,6 @@ export class BinaryTreeVisualizer extends React.Component {
     }
 
     setArray(i) {
-        this.set(i);
-        /*if (this.state.born === 0) {
-            this.set(i);
-        } else {
-            const circles = document.getElementsByClassName('circle');
-            if (circles[0].style.background === `rgb(255, 153, 51)`) {
-                this.set(i);
-            }
-        }*/
-    }
-
-    set(i) {
         this.setColor(PRIMARY_COLOR);
         const array = [];
         const arraySize = i;
