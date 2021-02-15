@@ -231,7 +231,13 @@ export class BinaryTreeVisualizer extends React.Component {
                         </div>
                     })
                 }
-                <div className="bar"></div>
+                <div
+                    className="bar"
+                    style={{
+                        height: `${window.innerWidth / 600}%`,
+                        marginTop: `${window.innerHeight / 80}%`,
+                    }}
+                ></div>
                 <header class="nested-dropdown__header">
                     <strong>Welcome</strong>
                     <ul class="nested-dropdown__categories">

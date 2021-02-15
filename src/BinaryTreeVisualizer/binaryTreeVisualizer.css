@@ -27,11 +27,10 @@
 }
 
 .bar {
-    height: 3px;
     width : 100%;
     background-color: #f93;
     position: absolute;
-    margin-top: 70px;
+    margin-top: 6%;
 }
 
 .bin-tree {
@@ -72,8 +71,8 @@
     display: flex;
     align-items: center;
     background: #21587F;
-    /*that's mine*/
-    height: 70px;
+    /*that's mine CA A L'AIR DE SERVIR A RIEN*/
+    height: 100%;
   }
   
   .nested-dropdown__header strong {
@@ -94,24 +93,28 @@
   }
   
   .nested-dropdown__header li {
-    padding: 27px;
+    height: 70px;
+    /*padding: 27px;*/
     position: relative;
   }
   
   .nested-dropdown__header li:hover {
     background: #f93;
-    padding:27px;
+    height: 70px;
+    /*padding:27px;*/
     cursor: pointer;
   }
 
   /**/
   .nested-dropdown__menu .nested-dropdown__submenu li:hover {
     background: #f93;
-    padding:16px;
+    /*padding:16px;*/
+    height: 50px;
     cursor: pointer;
   }
   .nested-dropdown__menu .nested-dropdown__submenu li {
-    padding:16px;
+    /*padding:16px;*/
+    height: 50px;
   }
   /**/
   
@@ -121,7 +124,7 @@
     position: absolute;
     background: #21587F;
     width: 150px;
-    top: 71px;
+    top: 100%;
     right: 0;
   }
   
