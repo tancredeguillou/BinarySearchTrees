@@ -212,45 +212,34 @@ export class BinaryTreeVisualizer extends React.Component {
                         </div>
                     })
                 }
-                <div
-                    className="bar"
-                    style={{
-                        height: `${window.innerWidth / 600}%`,
-                        marginTop: `${window.innerHeight / 80}%`,
-                    }}
-                ></div>
+                <div className="bar"></div>
                 <header class="nested-dropdown__header">
                     <strong>Welcome</strong>
                     <ul class="nested-dropdown__categories">
+                        <li className="button" onClick={()=> {this.buildBinSearchTree()}}>Build BST</li>
                         <li class="nested-dropdown__category">
-                            <span>MENU</span>
+                            <span>Max Heapify</span>
                             <ul class="nested-dropdown__menu">
-                                <li class="nested-dropdown__subcategory">
-                                    <span>New Tree</span>
-                                    <ul class="nested-dropdown__submenu">
-                                        <li className="button" onClick={()=> this.setArray(4)}>4 Levels</li>
-                                        <li className="button" onClick={()=> this.setArray(5)}>5 Levels</li>
-                                        <li className="button" onClick={()=> this.setArray(6)}>6 Levels</li>
-                                        <li className="button" onClick={()=> this.setArray(7)}>7 Levels</li>
-                                    </ul>
-                                </li>
-                                <li class="nested-dropdown__subcategory">
-                                    <span>Build Max Heap</span>
-                                    <ul class="nested-dropdown__submenu">
-                                        <li className="button" onClick={()=> {this.animSpeed(300); this.buildHeap(); this.animSpeed(100);}}>Slow Speed</li>
-                                        <li className="button" onClick={()=> {this.buildHeap()}}>Medium Speed</li>
-                                        <li className="button" onClick={()=> {this.animSpeed(20); this.buildHeap(); this.animSpeed(100);}}>Fast Speed</li>
-                                    </ul>
-                                </li>
-                                <li class="nested-dropdown__subcategory">
-                                    <span>Tree Walk</span>
-                                    <ul class="nested-dropdown__submenu">
-                                        <li className="button" onClick={()=> {this.showInorderWalk()}}>In Order</li>
-                                        <li className="button" onClick={()=> {this.showPreorderWalk()}}>Pre Order</li>
-                                        <li className="button" onClick={()=> {this.showPostorderWalk()}}>Post Order</li>
-                                    </ul>
-                                </li>
-                                <li className="button" onClick={()=> {this.buildBinSearchTree()}}>Build Binary Search Tree</li>
+                                <li className="button" onClick={()=> {this.animSpeed(300); this.buildHeap(); this.animSpeed(100);}}>Slow Speed</li>
+                                <li className="button" onClick={()=> {this.buildHeap()}}>Medium Speed</li>
+                                <li className="button" onClick={()=> {this.animSpeed(20); this.buildHeap(); this.animSpeed(100);}}>Fast Speed</li>
+                            </ul>
+                        </li>
+                        <li class="nested-dropdown__category">
+                            <span>Tree Walk</span>
+                            <ul class="nested-dropdown__menu">
+                                <li className="button" onClick={()=> {this.showInorderWalk()}}>In Order</li>
+                                <li className="button" onClick={()=> {this.showPreorderWalk()}}>Pre Order</li>
+                                <li className="button" onClick={()=> {this.showPostorderWalk()}}>Post Order</li>
+                            </ul>
+                        </li>
+                        <li class="nested-dropdown__category">
+                            <span>New Tree</span>
+                            <ul class="nested-dropdown__menu">
+                                <li className="button" onClick={()=> this.setArray(4)}>4 Levels</li>
+                                <li className="button" onClick={()=> this.setArray(5)}>5 Levels</li>
+                                <li className="button" onClick={()=> this.setArray(6)}>6 Levels</li>
+                                <li className="button" onClick={()=> this.setArray(7)}>7 Levels</li>
                             </ul>
                         </li>
                     </ul>

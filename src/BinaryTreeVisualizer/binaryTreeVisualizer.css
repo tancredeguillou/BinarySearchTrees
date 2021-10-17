@@ -11,7 +11,7 @@
 }
 
 .array-container {
-    bottom: 70%;
+    bottom: 0;
     position: absolute;
     margin-right: auto;
     margin-left: auto;
@@ -19,30 +19,17 @@
     right: 0px;
 }
 
-.menu {
-    height: 12%;
-    width: 100%;
-    background-color: #21587F;
-    position: absolute;
-}
-
 .bar {
+    height: 3px;
     width : 100%;
     background-color: #f93;
     position: absolute;
-    margin-top: 6%;
-}
-
-.bin-tree {
-    background-color: #fff;
-    height: 100%;
-    width: 100%;
-    position: absolute;
+    margin-top: 30px;
 }
 
 .button {
     position: absolute;
-    margin-top: 1%;
+    margin-top: 0px;
     background-color: #21587F;
     font-family: Arial;
     color: #fff;
@@ -71,7 +58,6 @@
     display: flex;
     align-items: center;
     background: #21587F;
-    /*that's mine CA A L'AIR DE SERVIR A RIEN*/
     height: 100%;
   }
   
@@ -84,7 +70,7 @@
   }
   
   .nested-dropdown__header ul {
-    display: flex;
+    display: inline-flex;
     list-style: none;
     padding: 0;
     margin: 0;
@@ -93,48 +79,34 @@
   }
   
   .nested-dropdown__header li {
-    height: 70px;
-    /*padding: 27px;*/
+    height: 30px;
+    width: 110px;
     position: relative;
   }
   
   .nested-dropdown__header li:hover {
     background: #f93;
-    height: 70px;
-    /*padding:27px;*/
+    height: 30px;
     cursor: pointer;
   }
-
-  /**/
-  .nested-dropdown__menu .nested-dropdown__submenu li:hover {
-    background: #f93;
-    /*padding:16px;*/
-    height: 50px;
-    cursor: pointer;
-  }
-  .nested-dropdown__menu .nested-dropdown__submenu li {
-    /*padding:16px;*/
-    height: 50px;
-  }
-  /**/
   
   .nested-dropdown__header .nested-dropdown__menu,
   .nested-dropdown__header .nested-dropdown__submenu {
     display: none;
     position: absolute;
     background: #21587F;
-    width: 150px;
+    width: 110px;
     top: 100%;
     right: 0;
   }
   
   .nested-dropdown__header .nested-dropdown__category:hover .nested-dropdown__menu,
   .nested-dropdown__header .nested-dropdown__subcategory:hover .nested-dropdown__submenu {
-    display: block;
+    display: inline;
     cursor: pointer;
   }
   
   .nested-dropdown__header .nested-dropdown__submenu {
-    top: 0;
-    right: 100%;
+    top: 100%;
+    right: 0;
   }
