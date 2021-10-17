@@ -203,7 +203,7 @@ export class BinaryTreeVisualizer extends React.Component {
                                         height: (index < 6) ? `${TOP_SIZE * (1 - (index * 0.1))}px` : `${TOP_SIZE * Math.pow(0.8, index)}px`,
                                         fontSize: (index < 6) ? `${TOP_FONT * (1 - (index * 0.1))}px` : `${TOP_FONT * Math.pow(0.8, index)}px`,
                                         lineHeight: (index < 6) ? `${TOP_SIZE * (1 - (index * 0.1))}px` : `${TOP_SIZE * Math.pow(0.8, index)}px`,
-                                        background: (value === 0) ? `#fff` : `#21587F`,
+                                        background: (value===0) ? `#fff` : `#21587F`,
                                     }}
                                 >
                                 {value}
