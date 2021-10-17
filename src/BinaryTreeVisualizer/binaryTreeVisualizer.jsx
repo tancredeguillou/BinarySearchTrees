@@ -26,8 +26,6 @@ const TOP_SIZE = 50;
 const TOP_FONT = 20;
 const MARGINS = [0, 200, 99, 42.3, 15, 2.6, 1];
 
-let action = 0;
-
 export class BinaryTreeVisualizer extends React.Component {
     constructor(props) {
         super(props);
@@ -178,23 +176,6 @@ export class BinaryTreeVisualizer extends React.Component {
 
         const indexes = [];
 
-        let action = 0;
-        /*if (this.state.born === 1) {
-        const circles = document.getElementsByClassName('circle');
-        console.log(circles.length);
-        if (circles[0] != null) {
-            const color = circles[0].style.background;
-
-        for (let i = 0; i < circles.length; i++) {
-            if (circles[i].style.background != color) {
-                action = 1;
-            }
-        }
-        }
-        
-        }*/
-        
-
         for (let i = 0; Math.pow(2, i) < array.length; i++) {
             indexes.push(i);
         }
@@ -222,7 +203,7 @@ export class BinaryTreeVisualizer extends React.Component {
                                         height: (index < 6) ? `${TOP_SIZE * (1 - (index * 0.1))}px` : `${TOP_SIZE * Math.pow(0.8, index)}px`,
                                         fontSize: (index < 6) ? `${TOP_FONT * (1 - (index * 0.1))}px` : `${TOP_FONT * Math.pow(0.8, index)}px`,
                                         lineHeight: (index < 6) ? `${TOP_SIZE * (1 - (index * 0.1))}px` : `${TOP_SIZE * Math.pow(0.8, index)}px`,
-                                        background: (value == 0) ? `#fff` : `#21587F`,
+                                        background: (value === 0) ? `#fff` : `#21587F`,
                                     }}
                                 >
                                 {value}
@@ -256,20 +237,20 @@ export class BinaryTreeVisualizer extends React.Component {
                                 <li class="nested-dropdown__subcategory">
                                     <span>Build Max Heap</span>
                                     <ul class="nested-dropdown__submenu">
-                                        <li className="button" onClick={()=> {if (action===0) {this.animSpeed(300); this.buildHeap(); this.animSpeed(100);}}}>Slow Speed</li>
-                                        <li className="button" onClick={()=> {if (action===0) {this.buildHeap()}}}>Medium Speed</li>
-                                        <li className="button" onClick={()=> {if (action===0) {this.animSpeed(20); this.buildHeap(); this.animSpeed(100);}}}>Fast Speed</li>
+                                        <li className="button" onClick={()=> {this.animSpeed(300); this.buildHeap(); this.animSpeed(100);}}>Slow Speed</li>
+                                        <li className="button" onClick={()=> {this.buildHeap()}}>Medium Speed</li>
+                                        <li className="button" onClick={()=> {this.animSpeed(20); this.buildHeap(); this.animSpeed(100);}}>Fast Speed</li>
                                     </ul>
                                 </li>
                                 <li class="nested-dropdown__subcategory">
                                     <span>Tree Walk</span>
                                     <ul class="nested-dropdown__submenu">
-                                        <li className="button" onClick={()=> {if(action===0) {this.showInorderWalk()}}}>In Order</li>
-                                        <li className="button" onClick={()=> {if(action===0) {this.showPreorderWalk()}}}>Pre Order</li>
-                                        <li className="button" onClick={()=> {if(action===0) {this.showPostorderWalk()}}}>Post Order</li>
+                                        <li className="button" onClick={()=> {this.showInorderWalk()}}>In Order</li>
+                                        <li className="button" onClick={()=> {this.showPreorderWalk()}}>Pre Order</li>
+                                        <li className="button" onClick={()=> {this.showPostorderWalk()}}>Post Order</li>
                                     </ul>
                                 </li>
-                                <li className="button" onClick={()=> {if(action===0) {this.buildBinSearchTree()}}}>Build Binary Search Tree</li>
+                                <li className="button" onClick={()=> {this.buildBinSearchTree()}}>Build Binary Search Tree</li>
                             </ul>
                         </li>
                     </ul>
