@@ -1,3 +1,8 @@
+# The website of the project is availbale here !
+
+https://bintreevisualizer-tancredeguillou.netlify.app/
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
